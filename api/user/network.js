@@ -23,4 +23,26 @@ router.get('/:id', function(req, res){
                 response.error(req, res, err.message, 500);
             })
 })
+
+router.post('/', function(req, res){
+        controller.insert(req.body)
+            .then((user)=> {
+                response.success(req, res, user, 200)
+            })
+            .catch((err) => {
+                response.error(req, res, err.message, 500)
+            })
+})
+
+router.delete('/:id', function(req, res){
+        const id = req.params.id;
+        controller.remove(id)
+            .then((isremove) => {
+                response.success(req, res, isremove, 200)
+            })
+            .catch((err) => {
+                response.error(req, res, err.message, 500)
+            })
+})
+
 module.exports = router;

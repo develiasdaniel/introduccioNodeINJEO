@@ -15,8 +15,22 @@ module.exports = function(storeInjected){
         return store.get(TABLE, id);
     }
 
+    function insert(body){
+        const user = {
+            name : body.name,
+            id: nanoid(),
+        }
+        return store.insert(TABLE, user);
+    }
+
+    function remove(id){
+        return store.remove(TABLE, id);
+    }
+
     return {
         list,
         get,
+        insert,
+        remove,
     }
 }
