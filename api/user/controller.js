@@ -1,4 +1,5 @@
 const { nanoid } = require('nanoid');
+const auth = require('../auth');
 const TABLE = 'user';
 let store;
 module.exports = function(storeInjected){
@@ -15,11 +16,21 @@ module.exports = function(storeInjected){
         return store.get(TABLE, id);
     }
 
-    function insert(body){
+    async function insert(body){
         const user = {
             name : body.name,
             id: nanoid(),
+            username: body.username,
         }
+
+        if(body.password || body.username){
+            await auth.insert({
+                id: user.id,
+                username: user.username,
+                password: body.password,
+            });
+        }
+
         return store.insert(TABLE, user);
     }
 
