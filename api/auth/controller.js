@@ -1,12 +1,14 @@
 const TABLE = 'auth';
 const auth = require('../../auth');
+const bcrypt = require('bcrypt');
+
 module.exports = function(injectedStore){
     let store = injectedStore;
     if(!store){
         store = require('../../store/dummy');
     }
 
-    function insert(data){
+    async function insert(data){
         const authData = {
             id: data.id,
         }
@@ -16,7 +18,7 @@ module.exports = function(injectedStore){
         }
 
         if(data.password){
-            authData.password = data.password;
+            authData.password = await bcrypt.hash(data.password, 5);
         }
 
         return store.insert(TABLE, authData); 
@@ -24,13 +26,16 @@ module.exports = function(injectedStore){
 
     async function login(username, password){
         const data = await store.query(TABLE, {username : username });
-        if(data.password == password){
-            // generate token
-            return auth.sign(data);
-        }
-        else{
-            throw new Error("Error al hacer login");
-        }
+        return bcrypt.compare(password, data.password)
+                .then(isPwdTrue => {
+                    if(isPwdTrue){             
+                        // generate token           
+                        return auth.sign(data);
+                    }
+                    else{                        
+                        throw new Error("Error al hacer login");
+                    }
+                });
     }
 
     return {

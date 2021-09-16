@@ -1,4 +1,5 @@
 const express = require('express');
+const secure = require('./secure');
 const router = express.Router();
 const response = require('../../utils/response');
 const controller = require('./index');
@@ -43,6 +44,17 @@ router.delete('/:id', function(req, res){
             .catch((err) => {
                 response.error(req, res, err.message, 500)
             })
+})
+
+
+router.put('/', secure('update'), function(req, res){
+    controller.insert(req.body)
+        .then((user) => {
+            response.success(req, res, user, 201);
+        })
+        .catch((err) => {
+            response.error(req, res, err.message, 500);
+        });
 })
 
 module.exports = router;
