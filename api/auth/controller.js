@@ -29,7 +29,8 @@ module.exports = function(injectedStore){
         return bcrypt.compare(password, data.password)
                 .then(isPwdTrue => {
                     if(isPwdTrue){             
-                        // generate token           
+                        // generate token 
+                        console.log(data);      
                         return auth.sign(data);
                     }
                     else{                        

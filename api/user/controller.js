@@ -38,10 +38,24 @@ module.exports = function(storeInjected){
         return store.remove(TABLE, id);
     }
 
+    function update(data){
+        return store.update(TABLE, data);
+    }
+
+    function register(userId, courseid){
+        var table = 'detail_course';
+        return store.insert(table, { 
+            user_id : userId, 
+            course_id : courseid,  
+        });
+    }
+
     return {
         list,
         get,
         insert,
         remove,
+        update,
+        register,
     }
 }

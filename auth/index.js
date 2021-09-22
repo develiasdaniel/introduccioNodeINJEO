@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const error = require('../models/error');
 
 function sign(data){
-    return jwt.sign(data, 'secret');
+    const userdata = JSON.parse(JSON.stringify(data));
+    return jwt.sign(userdata, 'secret');
 }
 
 const check = {
@@ -13,6 +14,9 @@ const check = {
             throw error('No puedes hacer esto', 401);
         }
     },
+    logged: function(req, owner){
+        const decode = decodeHeader(req);
+    }
 }
 
 function decodeHeader(request){

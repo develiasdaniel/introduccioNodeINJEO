@@ -40,9 +40,19 @@ router.delete('/:id', function(req, res, next){
 
 
 router.put('/', secure('update'), function(req, res, next){
-    controller.insert(req.body)
+    controller.update(req.body)
         .then((user) => {
             response.success(req, res, user, 201);
+        })
+        .catch(next);
+})
+
+router.post('/register/:courseid',secure('register'), function(req, res, next){
+    const idUser = req.user.id;
+    const idCourse = req.params.courseid;
+    controller.register(idUser, idCourse)
+        .then(data => {
+            response.success(req, res, data, 200)
         })
         .catch(next);
 })
