@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const error = require('../models/error');
 
 function sign(data){
     return jwt.sign(data, 'secret');
@@ -9,7 +10,7 @@ const check = {
         const decoded = decodeHeader(req);
         console.log(decoded);
         if (decoded.id !== owner) {
-            throw new Error('No puedes hacer esto');
+            throw error('No puedes hacer esto', 401);
         }
     },
 }
@@ -24,11 +25,11 @@ function decodeHeader(request){
 
 function getToken(authorization){
     if(!authorization){
-        throw new Error("No viene un token");
+        throw error('No viene un token', 401);
     }
 
     if(authorization.indexOf('Bearer ') === -1){
-        throw new Error('Formato invalido');
+        throw error('Formato invalido', 401);
     }
 
     const token = authorization.replace('Bearer ', '');
