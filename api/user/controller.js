@@ -1,6 +1,7 @@
 const { nanoid } = require('nanoid');
 const auth = require('../auth');
 const TABLE = 'user';
+const TABLE_COURSE = 'course';
 let store;
 module.exports = function(storeInjected){
     store = storeInjected;
@@ -50,6 +51,14 @@ module.exports = function(storeInjected){
         });
     }
 
+    async function courses(user){
+        const table = 'detail_course';
+        const join = {};
+        join[TABLE_COURSE] = 'course_id';
+        const query = { user_id : user }
+        return await store.query(table, query, join);
+    }
+
     return {
         list,
         get,
@@ -57,5 +66,6 @@ module.exports = function(storeInjected){
         remove,
         update,
         register,
+        courses,
     }
 }

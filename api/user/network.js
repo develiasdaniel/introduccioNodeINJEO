@@ -57,4 +57,12 @@ router.post('/register/:courseid',secure('register'), function(req, res, next){
         .catch(next);
 })
 
+router.get('/:id/courses', function(req, res, next){
+    controller.courses(req.params.id)
+        .then((list) => {
+            response.success(req, res, list, 200)
+        })
+        .catch(next);
+});
+
 module.exports = router;
