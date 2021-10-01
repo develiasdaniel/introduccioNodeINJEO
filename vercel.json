@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/index.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "course/index.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes":[
+        {
+            "src": "/auth(.*)",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/user(.*)",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/course(.*)",
+            "dest": "/course/index.js"
+        }
+    ]
+}

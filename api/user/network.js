@@ -47,6 +47,10 @@ router.put('/', secure('update'), function(req, res, next){
         .catch(next);
 })
 
+router.get('/test/ping', function(req, res, next){
+    response.success(req, res, 'pong user', 200);
+})
+
 router.post('/register/:courseid',secure('register'), function(req, res, next){
     const idUser = req.user.id;
     const idCourse = req.params.courseid;

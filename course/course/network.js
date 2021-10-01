@@ -7,6 +7,7 @@ const router = express.Router();
 
 // rutas
 router.get('/', list);
+router.get('/ping', ping);
 
 //funciones
 function list(req, res, next){
@@ -15,6 +16,10 @@ function list(req, res, next){
             response.success(req, res, data, 200);
         })   
         .catch(next);
+}
+
+function ping(req, res, next){
+    response.success(req, res, 'pong', 200);
 }
 
 module.exports = router;
